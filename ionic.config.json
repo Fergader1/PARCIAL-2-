@@ -1,0 +1,7 @@
+{
+  "name": "nanatsu-wiki",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}
