@@ -1,2 +1,19 @@
-// For information on how to create your own theme, please refer to:
-// https://ionicframework.com/docs/theming/
+/* Paleta de Nanatsu no Taizai */
+:root {
+  /* Primary: Rojo Carmesí (Símbolo de la ira) */
+  --ion-color-primary: #b71c1c;
+  --ion-color-primary-rgb: 183, 28, 28;
+  --ion-color-primary-contrast: #ffffff;
+  --ion-color-primary-contrast-rgb: 255, 255, 255;
+  --ion-color-primary-shade: #a11818;
+  --ion-color-primary-tint: #be3333;
+
+  /* Secondary: Dorado (Tesoros Sagrados) */
+  --ion-color-secondary: #ffd700;
+  --ion-color-secondary-rgb: 255, 215, 0;
+  --ion-color-secondary-contrast: #000000;
+
+  /* Fondo oscuro suave para toda la app */
+  --ion-background-color: #121212;
+  --ion-text-color: #ffffff;
+}

@@ -1,17 +1,91 @@
-<ion-header [translucent]="true">
+<ion-header [translucent]="true" class="ion-no-border">
   <ion-toolbar>
-    <ion-title>
-      Tab 1
-    </ion-title>
+    <ion-title class="app-title">Wiki Britannia</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="changeSort()">
+        <ion-icon name="filter-circle" size="large" color="primary"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+
+  <ion-toolbar>
+    <ion-searchbar placeholder="Buscar guerrero..." 
+                   (ionInput)="onSearchChange($event)"
+                   animated="true"
+                   search-icon="search-outline"></ion-searchbar>
+  </ion-toolbar>
+  
+  <ion-toolbar>
+    <ion-segment value="todos" (ionChange)="filterGroup($event)" scrollable="true" mode="md">
+      <ion-segment-button value="todos">
+        <ion-label>Todos</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="Pecado Capital">
+        <ion-label>Pecados</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="Mandamiento">
+        <ion-label>Mandamientos</ion-label>
+      </ion-segment-button>
+    </ion-segment>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Tab 1</ion-title>
-    </ion-toolbar>
-  </ion-header>
+  
+  <ion-grid *ngIf="isLoading">
+    <ion-row>
+      <ion-col size="6" size-md="4" size-lg="3" *ngFor="let i of [1,2,3,4,5,6]">
+        <ion-card class="glass-card" style="margin: 8px;">
+           <ion-skeleton-text animated style="width: 100%; height: 180px; margin: 0;"></ion-skeleton-text>
+           <ion-card-header>
+             <ion-skeleton-text animated style="width: 50%; height: 15px; margin-bottom: 5px; border-radius: 4px;"></ion-skeleton-text>
+             <ion-skeleton-text animated style="width: 80%; height: 20px; border-radius: 4px;"></ion-skeleton-text>
+           </ion-card-header>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 
-  <app-explore-container name="Tab 1 page"></app-explore-container>
+  <ng-container *ngIf="!isLoading">
+    
+    <div *ngIf="displayCharacters.length === 0" class="empty-state">
+      <ion-icon name="search"></ion-icon>
+      <h3>No se encontraron resultados</h3>
+      <p>Prueba con otro nombre o alias.</p>
+    </div>
+
+    <ion-grid>
+      <ion-row>
+        <ion-col size="6" size-md="4" size-lg="3" *ngFor="let char of displayCharacters; let i = index">
+          
+          <ion-card [routerLink]="['/detail', char.id]" 
+                    button="true" 
+                    mode="ios" 
+                    class="glass-card fade-in-up"
+                    [style.animation-delay]="(i * 50) + 'ms'">
+            
+            <div class="img-wrapper">
+              <ion-img [src]="char.image" [alt]="char.name"></ion-img>
+            </div>
+            
+            <ion-card-header>
+              <div class="faction-badge" [class.demon]="char.group === 'Mandamiento'">
+                {{ char.group === 'Mandamiento' ? '👹 Mandamiento' : '🐉 Pecado' }}
+              </div>
+              <ion-card-title>{{ char.name }}</ion-card-title>
+            </ion-card-header>
+          </ion-card>
+
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
+    <ion-infinite-scroll (ionInfinite)="onIonInfinite($event)">
+      <ion-infinite-scroll-content
+        loadingSpinner="bubbles"
+        loadingText="Invocando más guerreros...">
+      </ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+  </ng-container>
+
 </ion-content>

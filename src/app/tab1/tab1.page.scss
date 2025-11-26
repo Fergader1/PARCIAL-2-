@@ -1,0 +1,134 @@
+ion-content {
+  --background: #121212;
+}
+
+/* Título de la App en el header */
+.app-title {
+  font-weight: 900;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--ion-color-primary);
+}
+
+/* Espaciado del Grid */
+ion-grid {
+  padding: 10px 10px 120px 10px;
+}
+
+/* Estilo de la Tarjeta */
+ion-card {
+  background: #1e1e1e;
+  border-radius: 16px;
+  margin: 8px;
+  width: 100%;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.5);
+  border: 1px solid #333;
+  overflow: hidden; /* Mantiene la imagen dentro de los bordes redondeados */
+  transition: transform 0.2s;
+
+  /* Efecto al presionar */
+  &:active {
+    transform: scale(0.95);
+  }
+}
+
+/* Contenedor de la imagen (Vital para ion-img) */
+.img-wrapper {
+  position: relative;
+  width: 100%;
+  /* CAMBIO: Usamos padding-bottom para forzar la altura si aspect-ratio falla */
+  padding-bottom: 150%; 
+  background: #000;
+  overflow: hidden; /* Asegura que nada se salga */
+  
+  ion-img {
+    position: absolute; /* Vital para el truco del padding-bottom */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* ... el resto de tu CSS (el gradiente &::after) sigue igual ... */
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 60%;
+    background: linear-gradient(to top, #1e1e1e 0%, transparent 100%);
+    pointer-events: none;
+  }
+}
+
+/* Header de la tarjeta (Texto sobre la imagen) */
+ion-card-header {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 12px;
+  z-index: 10;
+}
+
+/* Etiqueta de PECADO / MANDAMIENTO */
+.faction-badge {
+  font-size: 0.65rem;
+  font-weight: 800;
+  padding: 3px 8px;
+  border-radius: 4px;
+  display: inline-block;
+  margin-bottom: 6px;
+  background: var(--ion-color-secondary); /* Dorado por defecto (Pecados) */
+  color: #000;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.5);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  
+  &.demon {
+    background: var(--ion-color-primary); /* Rojo (Mandamientos) */
+    color: #fff;
+  }
+}
+
+/* Nombre del personaje */
+ion-card-title {
+  font-size: 1.1rem;
+  font-weight: 900;
+  color: #fff;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.8);
+  margin: 0;
+  line-height: 1.2;
+}
+
+/* Estado Vacío (Empty State) */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 60vh;
+  color: #666;
+  text-align: center;
+  
+  ion-icon {
+    margin-bottom: 15px;
+    opacity: 0.5;
+  }
+  
+  h3 {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #888;
+    margin: 0 0 5px 0;
+  }
+  
+  p {
+    font-size: 0.9rem;
+    margin: 0;
+  }
+}
+
+

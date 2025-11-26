@@ -1,0 +1,107 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar style="--background: transparent;">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs/tab1" 
+                       color="light" 
+                       style="background: rgba(0,0,0,0.5); border-radius: 50%; width: 40px; height: 40px; margin-left: 10px;">
+      </ion-back-button>
+    </ion-buttons>
+    
+    <ion-buttons slot="end">
+      <ion-button (click)="shareCharacter()" style="background: rgba(0,0,0,0.5); border-radius: 50%; width: 40px; height: 40px; margin-right: 10px;">
+        <ion-icon name="share-social-outline" color="light"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" *ngIf="character" scrollEvents="true" (ionScroll)="onScroll($event)">
+  
+  <!-- IMAGEN DE FONDO PARALLAX -->
+  <div class="parallax-header" [style.transform]="'translateY(' + translateAmt + 'px)'">
+    <img [src]="character.image" class="bg-image" alt="background">
+    <div class="overlay-gradient"></div>
+  </div>
+
+  <!-- CONTENIDO FLOTANTE -->
+  <div class="detail-container">
+    
+    <div class="header-info fade-in-up">
+      <h1 class="main-name">{{ character.name }}</h1>
+      <p class="alias">"{{ character.alias[0] }}"</p>
+      
+      <div class="badges">
+        <span class="badge race">{{ character.race }}</span>
+        <span class="badge group" [class.demon]="character.group === 'Mandamiento'">
+          {{ character.group }}
+        </span>
+      </div>
+    </div>
+
+    <!-- ESTADÍSTICAS ANIMADAS (Glass Card) -->
+    <div class="stats-box glass-card fade-in-up" style="animation-delay: 100ms;">
+      <h3><ion-icon name="flash" color="warning"></ion-icon> Nivel de Poder</h3>
+      
+      <!-- MAGIA -->
+      <div class="stat-row">
+        <div class="stat-info">
+          <span>Magia</span>
+          <span class="number">{{ character.powerStats.magic | number }}</span>
+        </div>
+        <div class="progress-bg">
+          <!-- CORRECCIÓN AQUÍ: Usamos style.--w -->
+          <div class="progress-fill magic" [style.--w]="(getBarValue(character.powerStats.magic) * 100) + '%'"></div>
+        </div>
+      </div>
+
+      <!-- FUERZA -->
+      <div class="stat-row">
+        <div class="stat-info">
+          <span>Fuerza</span>
+          <span class="number">{{ character.powerStats.strength | number }}</span>
+        </div>
+        <div class="progress-bg">
+          <!-- CORRECCIÓN AQUÍ: Usamos style.--w -->
+          <div class="progress-fill strength" [style.--w]="(getBarValue(character.powerStats.strength) * 100) + '%'"></div>
+        </div>
+      </div>
+
+      <!-- ESPÍRITU -->
+      <div class="stat-row">
+        <div class="stat-info">
+          <span>Espíritu</span>
+          <span class="number">{{ character.powerStats.spirit | number }}</span>
+        </div>
+        <div class="progress-bg">
+          <!-- CORRECCIÓN AQUÍ: Usamos style.--w -->
+          <div class="progress-fill spirit" [style.--w]="(getBarValue(character.powerStats.spirit) * 100) + '%'"></div>
+        </div>
+      </div>
+      
+      <div class="total-power">
+        TOTAL: {{ character.powerStats.total | number }}
+      </div>
+    </div>
+
+    <div class="info-block fade-in-up" style="animation-delay: 200ms;">
+      <h3>Historia</h3>
+      <p class="bio-text">{{ character.description }}</p>
+    </div>
+
+    <div class="info-block fade-in-up" style="animation-delay: 300ms;">
+      <h3>Habilidades</h3>
+      <div class="abilities-grid">
+        <div class="ability-box" *ngFor="let ability of character.abilities">{{ ability }}</div>
+      </div>
+    </div>
+
+    <div style="height: 80px;"></div>
+  </div>
+  
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed" class="fade-in-up" style="animation-delay: 500ms; margin-bottom: 20px;">
+    <ion-fab-button (click)="toggleFav()" [color]="isFav ? 'danger' : 'light'">
+      <ion-icon [name]="isFav ? 'heart' : 'heart-outline'"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+</ion-content>
